@@ -1,16 +1,20 @@
 import React from "react"
 import { Route, Switch, Redirect } from "react-router-dom"
-import PageAboutUs from "./components/pageAboutUs"
+import PageAboutUs from "./components/pages/pageAboutUs"
 import NavBar from "./components/navBar"
-import PageServices from "./components/pageServices"
-import PageRecord from "./components/pageRecord"
-import PagePrices from "./components/pagePrices"
-import PageFeedback from "./components/pageFeedback"
-import PageProducts from "./components/pageProducts"
+import PageServices from "./components/pages/pageServices"
+import PageRecord from "./components/pages/pageRecord"
+import PagePrices from "./components/pages/pagePrices"
+import PageFeedback from "./components/pages/pageFeedback"
+import PageProducts from "./components/pages/pageProducts"
+import Banner from "./components/banner/banner"
+import Header from "./components/header"
 
 function App() {
     return (
         <div>
+            <Header />
+            <Banner />
             <NavBar />
             <Switch>
                 <Route path="/aboutUs" component={PageAboutUs}></Route>
