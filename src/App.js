@@ -8,7 +8,10 @@ import PagePrices from "./components/pages/pagePrices"
 import PageFeedback from "./components/pages/pageFeedback"
 import PageProducts from "./components/pages/pageProducts"
 import Banner from "./components/banner/banner"
-import Header from "./components/header"
+import Header from "./components/header/header"
+import PromotionBanner from "./components/promotion_banner/promotionBanner"
+import PageMain from "./components/pages/page_main/pageMain"
+import Footer from "./components/footer/footer"
 
 function App() {
     return (
@@ -23,8 +26,11 @@ function App() {
                 <Route path="/prices" component={PagePrices}></Route>
                 <Route path="/feedback" component={PageFeedback}></Route>
                 <Route path="/products" component={PageProducts}></Route>
+                <Route path="/" component={PageMain}></Route>
                 <Redirect to="/" />
             </Switch>
+            <PromotionBanner />
+            <Footer />
         </div>
     )
 }
