@@ -1,14 +1,21 @@
 import React, { useState, useEffect } from "react"
 import PropTypes from "prop-types"
-import MultiSelectField from "../multiSelectField"
 import TextField from "../textField"
+import SelectField from "../selectField"
+import getWeekAppointment from "../../../utils/weekCalculation"
 import { validator } from "../../../utils/validator"
-import MessageOrder from "./messageOrder"
+import MessageAppointment from "./messageAppointment"
 
-const FormOrder = ({ products, ordering, onSubmit, isSuccessfulOrder }) => {
-    const [data, setData] = useState(ordering)
+const FormAppointment = ({
+    services,
+    appointment,
+    onSubmit,
+    isSuccessfulAppointment
+}) => {
+    console.log(isSuccessfulAppointment)
+    const [data, setData] = useState(appointment)
     const [errors, setErrors] = useState({})
-    const [orderingComplete, setOrderingComplete] = useState(true)
+    const [appointmentComplete, setAppointmentComplete] = useState(true)
 
     useEffect(() => {
         validate()
@@ -30,9 +37,19 @@ const FormOrder = ({ products, ordering, onSubmit, isSuccessfulOrder }) => {
                 value: 10
             }
         },
-        product: {
+        service: {
             isRequired: {
-                message: "Выберите хотя бы один товар"
+                message: "Выберите услугу"
+            }
+        },
+        date: {
+            isRequired: {
+                message: "Выберите дату"
+            }
+        },
+        time: {
+            isRequired: {
+                message: "Выберите время"
             }
         }
     }
@@ -43,9 +60,17 @@ const FormOrder = ({ products, ordering, onSubmit, isSuccessfulOrder }) => {
         return Object.keys(errors).length === 0
     }
 
+    const timeOptions = [
+        { label: "10:00", value: "10:00" },
+        { label: "12:00", value: "12:00" },
+        { label: "14:00", value: "14:00" },
+        { label: "16:00", value: "16:00" },
+        { label: "18:00", value: "18:00" }
+    ]
+
     const handleSubmit = (e) => {
         e.preventDefault()
-        setOrderingComplete(false)
+        setAppointmentComplete(false)
         onSubmit(data)
         console.log(data)
     }
@@ -57,19 +82,14 @@ const FormOrder = ({ products, ordering, onSubmit, isSuccessfulOrder }) => {
         }))
     }
 
-    const productsList = products.map((product) => ({
-        label: product.name,
-        value: product._id
+    const servicesList = services.map((service) => ({
+        label: service.name,
+        value: service._id
     }))
-
-    const productsIsMissing = products.filter((product) => {
-        return !product.quantity && { name: product.name }
-    })
-
     const isValid = Object.keys(errors).length === 0
     return (
         <div className="d-flex justify-content-center m-3">
-            {orderingComplete ? (
+            {appointmentComplete ? (
                 <form
                     onSubmit={handleSubmit}
                     className="w-50 m-2 border rounded bg-white"
@@ -87,39 +107,52 @@ const FormOrder = ({ products, ordering, onSubmit, isSuccessfulOrder }) => {
                             onChange={handleChange}
                             error={errors.phone}
                         />
-                        <MultiSelectField
-                            options={productsList}
+                        <SelectField
+                            options={servicesList}
+                            label="Выберите услугу"
+                            name="service"
                             onChange={handleChange}
-                            name="product"
-                            label="Выберите товары"
-                            error={errors.product}
+                            error={errors.service}
+                        />
+                        <SelectField
+                            options={getWeekAppointment()}
+                            label="Выберите дату"
+                            name="date"
+                            onChange={handleChange}
+                            error={errors.date}
+                        />
+                        <SelectField
+                            options={timeOptions}
+                            label="Выберите время"
+                            name="time"
+                            onChange={handleChange}
+                            error={errors.time}
                         />
                         <button
                             type="submit"
                             disabled={!isValid}
                             className="btn btn-primary w-100 mx-auto"
                         >
-                            Заказать
+                            Записаться
                         </button>
                     </div>
                 </form>
             ) : (
-                <MessageOrder
+                <MessageAppointment
                     date={data.date}
-                    isSuccessfulOrder={isSuccessfulOrder}
-                    productsIsMissing={productsIsMissing}
+                    time={data.time}
+                    isSuccessfulAppointment={isSuccessfulAppointment}
                 />
             )}
         </div>
     )
 }
 
-FormOrder.propTypes = {
-    products: PropTypes.array,
-    ordering: PropTypes.object,
-    onChange: PropTypes.func,
+FormAppointment.propTypes = {
+    services: PropTypes.array,
+    appointment: PropTypes.object,
     onSubmit: PropTypes.func,
-    isSuccessfulOrder: PropTypes.number
+    isSuccessfulAppointment: PropTypes.number
 }
 
-export default FormOrder
+export default FormAppointment

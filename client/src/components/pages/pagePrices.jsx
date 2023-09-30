@@ -1,7 +1,30 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
+import axios from "axios"
+import TablePrices from "../common/tablePrices"
 
 const PagePrices = () => {
-    return <h1>Цены</h1>
+    const [services, setServices] = useState([])
+    const [isLoading, setIsLoading] = useState(true)
+
+    useEffect(() => {
+        async function fetchData() {
+            const { data } = await axios.get(
+                "http://localhost:8080/api/service"
+            )
+            setServices(data)
+        }
+        fetchData()
+    }, [])
+
+    useEffect(() => {
+        if (services && isLoading) {
+            setIsLoading(false)
+        }
+    }, [services])
+
+    return (
+        <>{!isLoading ? <TablePrices services={services} /> : "Loading..."}</>
+    )
 }
 
 export default PagePrices

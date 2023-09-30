@@ -1,25 +1,25 @@
 import React, { useEffect, useState } from "react"
 import axios from "axios"
-import ProductCard from "../common/productCard"
-import FormOrder from "../common/forms/formOrder/formOrder"
+import FormAppointment from "../common/forms/formAppointment/formAppointment"
 
-const PageProducts = () => {
-    const dataOrdering = {
+const PageRecord = () => {
+    const dataAppointment = {
         name: "",
         phone: "",
         date: "",
-        product: []
+        time: "",
+        service: []
     }
 
-    const [products, setProducts] = useState([])
-    const [ordering, setOrdering] = useState(dataOrdering)
+    const [services, setServices] = useState([])
+    const [appointment, setAppointment] = useState(dataAppointment)
     const [isLoading, setIsLoading] = useState(true)
-    const [isSuccessfulOrder, setIsSuccessfulOrder] = useState(null)
+    const [isSuccessfulAppointment, setIsSuccessfulAppointment] = useState(null)
 
     const handleSubmit = async (data) => {
         try {
             await axios
-                .post("http://localhost:8080/api/order", data)
+                .post("http://localhost:8080/api/appointment", data)
                 .then((res) => console.log(res.data))
         } catch (error) {
             const expectedErrors =
@@ -29,25 +29,25 @@ const PageProducts = () => {
             if (!expectedErrors) {
                 console.log("Unexpected error")
             } else {
-                setIsSuccessfulOrder(error.response.status)
+                setIsSuccessfulAppointment(error.response.status)
                 console.log("Expected Error")
             }
         }
     }
 
     useEffect(() => {
-        if (products && isLoading) {
+        if (services && isLoading) {
             setIsLoading(false)
         }
-    }, [products])
+    }, [services])
 
     useEffect(() => {
         async function fetchData() {
             const { data } = await axios.get(
-                "http://localhost:8080/api/product"
+                "http://localhost:8080/api/service"
             )
-            setProducts(data)
-            setOrdering(dataOrdering)
+            setServices(data)
+            setAppointment(dataAppointment)
         }
         fetchData()
     }, [])
@@ -56,12 +56,11 @@ const PageProducts = () => {
         <>
             {!isLoading ? (
                 <>
-                    <ProductCard products={products} />
-                    <FormOrder
-                        isSuccessfulOrder={isSuccessfulOrder}
-                        products={products}
-                        ordering={ordering}
+                    <FormAppointment
+                        services={services}
+                        appointment={appointment}
                         onSubmit={handleSubmit}
+                        isSuccessfulAppointment={isSuccessfulAppointment}
                     />
                 </>
             ) : (
@@ -71,4 +70,4 @@ const PageProducts = () => {
     )
 }
 
-export default PageProducts
+export default PageRecord

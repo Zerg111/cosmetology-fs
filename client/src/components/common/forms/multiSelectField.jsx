@@ -1,11 +1,9 @@
 import React from "react"
 import Select from "react-select"
 import PropTypes from "prop-types"
-import getDateOrdering from "../../../utils/dateCalculation"
+import getDateOrdering from "../../utils/dateCalculation"
 
 const MultiSelectField = ({ options, onChange, name, label, error }) => {
-    // console.log("error.name", error)
-
     const handleChange = (value) => {
         const productId = value.map((item) => {
             return item.value
