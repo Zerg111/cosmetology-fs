@@ -1,0 +1,4 @@
+{
+    "port": 8080,
+    "mongoUri": "mongodb+srv://Zerg:cosmetology@cluster0.b6wgfnp.mongodb.net/cosmetologyDatabase?retryWrites=true&w=majority"
+}
