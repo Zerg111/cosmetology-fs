@@ -43,9 +43,7 @@ const PageProducts = () => {
 
     useEffect(() => {
         async function fetchData() {
-            const { data } = await axios.get(
-                "http://localhost:8080/api/product"
-            )
+            const { data } = await axios.get("http://92.53.69.60/api/product")
             setProducts(data)
             setOrdering(dataOrdering)
         }

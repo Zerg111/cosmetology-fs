@@ -9,9 +9,7 @@ const PageServices = ({ location }) => {
 
     useEffect(() => {
         async function fetchData() {
-            const { data } = await axios.get(
-                "http://localhost:8080/api/service"
-            )
+            const { data } = await axios.get("http://92.53.69.60/api/service")
             setServices(data)
         }
         fetchData()

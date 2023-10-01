@@ -7,9 +7,7 @@ const PageFeedback = () => {
     const [isLoading, setIsLoading] = useState(true)
     useEffect(() => {
         async function fetchData() {
-            const { data } = await axios.get(
-                "http://localhost:8080/api/feedback"
-            )
+            const { data } = await axios.get("http://92.53.69.60/api/feedback")
             setFeedbacks(data)
         }
         fetchData()
