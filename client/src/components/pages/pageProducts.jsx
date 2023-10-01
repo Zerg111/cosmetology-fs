@@ -19,7 +19,7 @@ const PageProducts = () => {
     const handleSubmit = async (data) => {
         try {
             await axios
-                .post("http://localhost:8080/api/order", data)
+                .post("http://92.53.69.60/api/order", data)
                 .then((res) => console.log(res.data))
         } catch (error) {
             const expectedErrors =
